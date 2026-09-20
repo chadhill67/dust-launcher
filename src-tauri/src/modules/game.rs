@@ -14,8 +14,6 @@ use tauri::Window;
 
 use crate::utilities;
 
-use serde::Deserialize;
-
 const CREATE_NO_WINDOW: u32 = 0x08000000;
 
 fn get_remote_file_size(url: &str) -> Result<u64, String> {
@@ -56,6 +54,8 @@ pub fn launch_game(
     password: String,
     redirect_link: String,
     backend: String,
+    fl_token: String,
+    caldera: String,
     inject_extra_dlls: bool,
     extra_dll_links: Vec<String>,
     use_custom_paks: bool,
@@ -121,8 +121,6 @@ pub fn launch_game(
         "-fromfl=eac",
         "-nocodeguards",
         "-nouac",
-        "-fltoken=3db3ba5dcbd2e16703f3978d",
-        "-caldera=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoiYmU5ZGE1YzJmYmVhNDQwN2IyZjQwZWJhYWQ4NTlhZDQiLCJnZW5lcmF0ZWQiOjE2Mzg3MTcyNzgsImNhbGRlcmFHdWlkIjoiMzgxMGI4NjMtMmE2NS00NDU3LTliNTgtNGRhYjNiNDgyYTg2IiwiYWNQcm92aWRlciI6IkVhc3lBbnRpQ2hlYXQiLCJub3RlcyI6IiIsImZhbGxiYWNrIjpmYWxzZX0.VAWQB67RTxhiWOxx7DBjnzDnXyyEnX7OljJm-j2d88G_WgwQ9wrE6lwMEHZHjBd1ISJdUO1UVUqkfLdU5nofBQs",
         "-skippatchcheck",
         "-AUTH_TYPE=epic",
         "-useallavailablecores",
@@ -139,6 +137,8 @@ pub fn launch_game(
     );
 
     combined_args.push(format!("-backend={}", backend));
+    combined_args.push(format!("-fltoken={}", fl_token));
+    combined_args.push(format!("-caldera={}", caldera));
 
     let paks_dir = game_game_directory.join("Content").join("Paks");
 

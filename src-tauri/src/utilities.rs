@@ -109,6 +109,7 @@ pub fn remove_game_dll_sync(game_path: &Path) -> Result<(), String> {
     Ok(())
 }
 
+#[allow(dead_code)]
 #[tauri::command]
 pub fn remove_client_dll_sync(client_dll_path: &Path) -> Result<(), String> {
     loop {
@@ -142,6 +143,7 @@ pub fn download_file(url: &str, dest: &Path) -> Result<(), Box<dyn std::error::E
 }
 
 // https://www.reddit.com/r/rust/comments/xu2hiw/comment/iqtrpb5
+#[allow(dead_code)]
 #[tauri::command]
 pub fn suspend_process(pid: u32) -> (u32, bool) {
     unsafe {

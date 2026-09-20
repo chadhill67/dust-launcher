@@ -14,6 +14,7 @@ export const Config = {
     SEASON_X_BG: "https://raw.githubusercontent.com/chadhill67/imnages/main/Golden_penuh.jpg",
   },
   LAUNCH_OPTIONS: {
+    FL_TOKEN: "3db3ba5dcbd2e16703f3978d",
     REDIRECT_DOWNLOAD: "https://raw.githubusercontent.com/chadhill67/dust-redirct/main/Tellurium.dll",
     DOWNLOAD_PAKS: false,
     PAK_LINKS: [] as string[],

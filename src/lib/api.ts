@@ -8,6 +8,13 @@ export const api = {
 
   getShopCatalog: () => request<any>({ url: endpoints.shopCatalog }),
 
+  getCaldera: (accountId: string, version: string = "12.41") =>
+    request<any>({
+      url: endpoints.launcherCaldera,
+      params: { accountId, version },
+      timeout: 10000,
+    }),
+
   login: (email: string, password: string) =>
     request<any>({
       url: "/h/d/v1/launcher/login",

@@ -9,6 +9,7 @@ import { useConfigStore } from "../../stores/settings";
 import { Config } from "../../config";
 import { useUserStore } from "../../stores/user";
 import { showToast } from "../../app/components/toaster";
+import { api } from "../../lib/api";
 
 const window = new Window("Main");
 
@@ -61,7 +62,7 @@ export const start = async (
   isValidSession: () => boolean,
 ): Promise<boolean> => {
   const build = useLibraryStore.getState().entries.get(buildPath);
-  const { email, password } = useUserStore.getState();
+  const { email, password, accountId } = useUserStore.getState();
   const { minimizeOnLaunch, eorEnabled, rorEnabled, highPriorityLaunch, adminLaunch, mobileBuilds } =
     useConfigStore.getState();
 
@@ -112,12 +113,25 @@ export const start = async (
       "",
     );
 
+    const calderaRes = await api.getCaldera(
+      accountId ?? "",
+      Config.CURRENT_VERSION,
+    );
+    if (!calderaRes.success || !calderaRes.data?.jwt) {
+      throw new Error(
+        "Failed to get your game session token from the backend.",
+      );
+    }
+    const calderaToken = calderaRes.data.jwt;
+
     await invoke("launch_game", {
       filePath: fn,
       email: email,
       password: password,
       redirectLink: Config.LAUNCH_OPTIONS.REDIRECT_DOWNLOAD || "",
       backend: backendUrl,
+      flToken: Config.LAUNCH_OPTIONS.FL_TOKEN || "",
+      caldera: calderaToken,
       injectExtraDlls: Config.LAUNCH_OPTIONS.DOWNLOAD_EXTRA_DLLS || false,
       extraDllLinks: Config.LAUNCH_OPTIONS.DLL_LINKS || [],
       useCustomPaks: Config.LAUNCH_OPTIONS.DOWNLOAD_PAKS || false,

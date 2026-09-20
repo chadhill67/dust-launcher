@@ -6,4 +6,5 @@ export const endpoints = {
   statsV2Leaderboard: "/fortnite/api/statsv2/leaderboards",
   globalLeaderboard: "/fortnite/api/leaderboards/type/global/stat",
   paks: "/api/launcher/paks",
+  launcherCaldera: "/h/d/v1/launcher/caldera",
 } as const;

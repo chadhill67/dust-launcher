@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::fs;
 use rand::seq::SliceRandom;
@@ -29,6 +28,7 @@ struct Cosmetic {
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
+#[allow(non_snake_case)]
 struct TypeInfo {
     value: String,
     displayValue: String,
@@ -36,6 +36,7 @@ struct TypeInfo {
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
+#[allow(non_snake_case)]
 struct Rarity {
     value: String,
     displayValue: String,
@@ -43,29 +44,15 @@ struct Rarity {
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
+#[allow(non_snake_case)]
 struct Images {
     smallIcon: String,
     icon: String,
     featured: String,
 }
 
-#[derive(Debug, Serialize, Clone)]
-struct ShopItem {
-    id: String,
-    name: String,
-    description: String,
-    price: i32,
-    images: ShopImages,
-    rarity: Rarity,
-}
-
-#[derive(Debug, Serialize, Clone)]
-struct ShopImages {
-    featured: String,
-    icon: String,
-}
-
 #[derive(Serialize)]
+#[allow(non_snake_case)]
 struct ShopCatalog {
     refreshIntervalHrs: i32,
     dailyPurchaseHrs: i32,
@@ -74,12 +61,14 @@ struct ShopCatalog {
 }
 
 #[derive(Serialize)]
+#[allow(non_snake_case)]
 struct Storefront {
     name: String,
     catalogEntries: Vec<CatalogEntry>,
 }
 
 #[derive(Serialize)]
+#[allow(non_snake_case)]
 struct CatalogEntry {
     devName: String,
     offerId: String,
@@ -105,6 +94,7 @@ struct CatalogEntry {
 }
 
 #[derive(Serialize)]
+#[allow(non_snake_case)]
 struct Price {
     currencyType: String,
     currencySubType: String,
@@ -115,12 +105,14 @@ struct Price {
 }
 
 #[derive(Serialize)]
+#[allow(non_snake_case)]
 struct Meta {
     SectionId: String,
     TileSize: String,
 }
 
 #[derive(Serialize)]
+#[allow(non_snake_case)]
 struct Requirement {
     requirementType: String,
     requiredId: String,
@@ -128,6 +120,7 @@ struct Requirement {
 }
 
 #[derive(Serialize)]
+#[allow(non_snake_case)]
 struct GiftInfo {
     bIsEnabled: bool,
     forcedGiftBoxTemplateId: String,
@@ -136,12 +129,14 @@ struct GiftInfo {
 }
 
 #[derive(Serialize)]
+#[allow(non_snake_case)]
 struct MetaInfo {
     key: String,
     value: String,
 }
 
 #[derive(Serialize)]
+#[allow(non_snake_case)]
 struct ItemGrant {
     templateId: String,
     quantity: i32,
@@ -183,7 +178,7 @@ fn get_item_type_price(item_type: &str) -> i32 {
 
 async fn fetch_cosmetics_for_season(client: &reqwest::Client, season: i32) -> Result<Vec<Cosmetic>, Box<dyn std::error::Error>> {
     let url = format!("https://fortnite-api.com/v2/cosmetics?season={}", season);
-    let response = reqwest::get(&url).await?;
+    let response = client.get(&url).send().await?;
     let data: FortniteApiResponse = response.json().await?;
     Ok(data.data.br)
 }
